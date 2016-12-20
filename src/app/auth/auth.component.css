@@ -1,7 +1,11 @@
 /*section {
     background-image: url('assets/img/background.jpg');
 }*/
-
+h1 {
+    text-align: center;
+    font-family: 'Indie Flower', cursive;
+    font-size: 60px !important;
+}
 body {
     padding-top: 90px; 
 	background-image: url('assets/img/background.jpg');
@@ -93,7 +97,7 @@ body {
 .panel-footer {
 	text-align: center;
 }
-span {
+.panel-footer span {
 	margin: 0 auto;
 	max-width: 100px;
 	font-family: 'Indie Flower', cursive;
