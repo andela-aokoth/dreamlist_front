@@ -1,6 +1,12 @@
 <h1>
   <span style="color:#1CB94E">Dream</span><span style="color:#53A3CD">List<sup>&reg;</sup></span>
 </h1>
+<div class="messages alert alert-success fade in alert-dismissable" *ngIf="welcomeMessage">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <span class="error">
+    {{ weclomeMessage }}
+  </span>
+</div>
 <div class="messages alert alert-danger fade in alert-dismissable" *ngIf="errorMessage">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   <span class="error">

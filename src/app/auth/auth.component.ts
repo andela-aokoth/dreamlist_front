@@ -20,6 +20,7 @@ export class AuthComponent implements OnInit {
   registerPassword: string;
   registerConfirmPassword: string;
   errorMessage = "";
+  welcomeMessage = "";
 
   constructor(private _authService: AuthService, private _router: Router) {
     if (this._authService.isLoggedIn) {
@@ -47,7 +48,9 @@ export class AuthComponent implements OnInit {
     this._authService.registerUser(this.registerUsername, this.registerPassword).subscribe(
       (data) => {
         if (data) {
-          this._router.navigate(['/auth']);
+          // this._router.navigate(['/auth']);
+          this.welcomeMessage = "Please login to continue";
+          console.log(this.welcomeMessage);
         };
       },
       (error) => {
