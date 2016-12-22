@@ -9,7 +9,7 @@
       <!--<li class="active"><a href="#">Home</a></li>-->
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#">Hey, Dreamer</a></li>
+      <li><a href="#">Hey, {{ currentUser }} </a></li>
       <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
     </ul>
   </div>
@@ -18,45 +18,63 @@
   <div class="panel panel-items">
     <div style="padding-left: 35px;" class="panel-heading">
       <h3> {{ pageTitle }} </h3>
-      <button class="btn btn-danger pull-left" data-toggle="modal" data-target="#confirmDelete">
-        Delete List
-    </button>
+      <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#addItem">
+        Add Item
+      </button>
       <!-- Modal -->
-      <div id="confirmDelete" class="modal fade" role="dialog">
+      <div id="addItem" class="modal fade" role="dialog">
         <div class="modal-dialog">
           <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal">&times;</button>
-              <h4 class="modal-title">Confirm</h4>
+              <h4 class="modal-title">Create New Item</h4>
             </div>
             <div class="modal-body">
-              <p>Are you sure you want to delete this list?</p>
+              <form id="add-new-item" method="post"  role="form" style="display: block;">
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="itemName" name="name" id="name" tabindex="1" class="form-control" placeholder="Item Name"
+                    required>
+                </div>
+                <div class="form-group">
+                  <label>Status: </label>
+                  <input type="checkbox" [(ngModel)]="itemStatus" name="description" id="description" tabindex="2">
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-4 pull-left">
+                      <input type="submit" name="login-submit" (click)="addBucketlistItem()" id="login-submit" tabindex="4" class="form-control btn btn-success"
+                        value="Save">
+                    </div>
+                  </div>
+                </div>
+              </form>
             </div>
-            <div class="modal-footer">
+            <!--<div class="modal-footer">
               <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
-              <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
-            </div>
+              <button type="button" class="btn btn-success" data-dismiss="modal">Save</button>
+            </div>-->
           </div>
         </div>
       </div>
       <!-- End Modal -->
     </div>
     <div class="panel-body">
-      <div class="panel-body">
-        <div class="pull-left panel panel-item" *ngFor="let item of items; let i = index">
+      <div class="panel-body" *ngIf="bucketlist">
+
+        <div class="pull-left panel panel-primary panel-item" *ngFor="let item of bucketlist.items; let i = index">
           <div class="panel-heading">
-            <h2> {{ item.name }} </h2>
+            <h3> {{ item.name }} </h3>
           </div>
           <div class="panel-body">
-            <p>ID: {{ item.item_id }} </p>
+            <!--<p>ID: {{ item.id }} </p>-->
             <p>Date Added: {{ item.date_created }} </p>
             <p>Completed: {{ item.done }} </p>
           </div>
-          <button class="pull-right btn btn-danger" data-toggle="modal" [attr.data-target]="'#confirmDeleteItem' + i">
+          <button class="pull-right btn btn-danger" data-toggle="modal" [attr.data-target]="'#confirmDeleteItem' + i" (click)="getModalValues(item.id, item.name, item.done)">
             <span class="glyphicon glyphicon-trash"></span>
           </button>
-          <button class="pull-right btn btn-primary" data-toggle="modal" [attr.data-target]="'#updateItem' + i">
+          <button class="pull-right btn btn-primary" data-toggle="modal" [attr.data-target]="'#updateItem' + i" (click)="getModalValues(item.id, item.name, item.done)">
             <span class="glyphicon glyphicon-edit"></span>
           </button>
           <!-- Confirm Delete Item Modal -->
@@ -66,13 +84,13 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Confirm Delete Item ID: {{ item.item_id }} </h4>
+                  <h4 class="modal-title">Confirm Delete Item ID: {{ item.id }} </h4>
                 </div>
                 <div class="modal-body">
                   <p>Are you sure you want to delete this item?</p>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                  <button (click)="deleteBucketlistItem()" type="button" class="btn btn-danger" data-dismiss="modal">Yes</button>
                   <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
                 </div>
               </div>
@@ -86,21 +104,21 @@
               <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal">&times;</button>
-                  <h4 class="modal-title">Update Item ID: {{ item.item_id }}</h4>
+                  <h4 class="modal-title">Update Item ID: {{ item.id }}</h4>
                 </div>
                 <div class="modal-body">
                   <form id="update-item" method="post" role="form" style="display: block;">
                     <div class="form-group">
-                      <input type="text" name="name" id="name" tabindex="1" class="form-control" placeholder="Item Name" required>
+                      <input [(ngModel)]="itemName" type="text" name="name" id="name" tabindex="1" class="form-control" placeholder="Item Name" required>
                     </div>
                     <div class="form-group">
                       <label>Completed: </label> &nbsp;
-                      <input type="checkbox" name="done" id="done" tabindex="2" [checked]="item.done" required>
+                      <input type="checkbox" name="done" id="done" tabindex="2" [(ngModel)]="itemStatus" required>
                     </div>
                     <div class="form-group">
                       <div class="row">
                         <div class="col-sm-4 pull-left">
-                          <input type="submit" name="update-submit" id="update-submit" tabindex="4" class="form-control btn btn-success" value="Save">
+                          <input (click)="updateBucketlistItem()" type="submit" name="update-submit" id="update-submit" tabindex="4" class="form-control btn btn-success" value="Save">
                         </div>
                       </div>
                     </div>
@@ -111,6 +129,9 @@
           </div>
           <!-- End Modal -->
         </div>
+      </div>
+      <div class="panel-body" *ngIf="!bucketlist" style="text-align:center;">
+        <h2>This list has no items</h2>
       </div>
     </div>
     <div class="panel-footer">
