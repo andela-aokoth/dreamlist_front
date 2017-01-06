@@ -1,0 +1,93 @@
+<h1>
+  <span style="color:#1CB94E">Dream</span><span style="color:#53A3CD">List<sup>&reg;</sup></span>
+</h1>
+<div class="messages alert alert-success fade in alert-dismissable" *ngIf="welcomeMessage">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <span class="error">
+    {{ weclomeMessage }}
+  </span>
+</div>
+<div class="messages alert alert-danger fade in alert-dismissable" *ngIf="errorMessage">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <span class="error">
+    {{ errorMessage }}
+  </span>
+</div>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+      <div class="panel panel-login">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-xs-6">
+              <a data-toggle="tab" href="#login" style="color:#53A3CD">Login</a>
+            </div>
+            <div class="col-xs-6">
+              <a data-toggle="tab" href="#register" style="color:#1CB94E">Register</a>
+            </div>
+          </div>
+          <hr>
+        </div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="tab-content">
+                <div id="login" class="tab-pane fade in active">
+                  <form id="login-form" method="post" role="form" style="display: block;" (submit)="loginUser()">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="loginUsername" name="username" id="username" tabindex="1" class="form-control" placeholder="Username"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" [(ngModel)]="loginPassword" name="password" id="password" tabindex="2" class="form-control" placeholder="Password"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                          <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div id="register" class="tab-pane fade">
+                  <form id="register-form" method="post" role="form" (submit)='registerUser()'>
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="registerUsername" name="username" id="username" tabindex="1" class="form-control" placeholder="Username"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <input type="email" name="email" id="email" tabindex="1" class="form-control" placeholder="Email Address" required>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" [(ngModel)]="registerPassword" name="password" id="password" tabindex="2" class="form-control" placeholder="Password"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <input type="password" name="confirm-password" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirm Password"
+                        required>
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                          <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <span>
+            The future belongs to those who believe 
+            <br />in the beauty of their dreams. <sub style="color:#53A3CD"><strong>~ Eleanor Roosevelt</strong></sub>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,141 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#" style="font-family: 'Indie Flower', cursive; font-size: 35px">
+        <span style="color:#1CB94E">Dream</span><span style="color:#53A3CD">List<sup>&reg;</sup></span>
+      </a>
+    </div>
+    <ul class="nav navbar-nav">
+      <!--<li class="active"><a href="#">Home</a></li>-->
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a>Hey, {{ currentUser }}</a></li>
+      <li><a href="#" (click)="logoutUser()"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <div class="panel panel-bucketlists">
+    <div style="padding-left: 18px;" class="panel-heading">
+      <h2>Your Dream Lists</h2>
+      <button class="btn btn-primary pull-left" data-toggle="modal" data-target="#createNew">
+        Create Dream List
+      </button>
+      <!-- Modal -->
+      <div id="createNew" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">&times;</button>
+              <h4 class="modal-title">Create New Dream List</h4>
+            </div>
+            <div class="modal-body">
+              <form id="create-new-bucketlist" method="post" role="form" style="display: block;">
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="bucketlistName" name="name" id="name" tabindex="1" class="form-control" placeholder="Dream List Name"
+                    required>
+                </div>
+                <div class="form-group">
+                  <input type="text" [(ngModel)]="bucketlistDescription" name="description" id="description" tabindex="2" class="form-control"
+                    placeholder="Description" required>
+                </div>
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-sm-4 pull-left">
+                      <input type="submit" (click)="createBucketlist()" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success"
+                        value="Save">
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <!-- End Modal -->
+    </div>
+    <div class="panel-body" *ngIf="bucketlists">
+      <div class="pull-left panel panel-primary panel-bucketlist" *ngFor="let bucketlist of bucketlists; let i = index">
+        <div class="panel-heading">
+          <h2> {{ bucketlist.name }} </h2>
+        </div>
+        <div class="panel-body">
+          <p>ID: {{ bucketlist.id }} </p>
+          <p>Description: {{ bucketlist.description}} </p>
+          <button (click)='getModalValues(bucketlist.id, bucketlist.name, bucketlist.description)' class="btn btn-danger pull-right"
+            data-toggle="modal" [attr.data-target]="'#deleteBucketList' + i">
+              <span class="glyphicon glyphicon-trash" title="Edit"></span>
+          </button>
+          <button style="margin-right:10px;" class="btn btn-primary pull-right" [routerLink]="['/bucketlists', bucketlist.id]">
+              <span class="glyphicon glyphicon-share-alt" title="View"></span>
+          </button>
+          <button style="margin-right:10px;" (click)='getModalValues(bucketlist.id, bucketlist.name, bucketlist.description)' class="btn btn-success pull-right"
+            data-toggle="modal" [attr.data-target]="'#editBucketList' + i">
+              <span class="glyphicon glyphicon-edit" title="Edit"></span>
+          </button>
+          <!-- Edit Modal -->
+          <div [id]="'editBucketList' + i" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Edit List ID: {{ bucketlist.id }} </h4>
+                </div>
+                <div class="modal-body">
+                  <form id="update-bucketlist" method="post" role="form" style="display: block;">
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="bucketlistName" name="name" id="name" tabindex="1" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <input type="text" [(ngModel)]="bucketlistDescription" name="description" id="description" tabindex="2" class="form-control">
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-sm-4 pull-left">
+                          <input type="submit" (click)="updateBucketlist()" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-success"
+                            value="Update">
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div [id]="'deleteBucketList' + i" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">Delete List ID: {{ bucketlist.id }} </h4>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to delete this dream list?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" (click)="deleteBucketlist()" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                  <button type="button" class="btn btn-success" data-dismiss="modal">No</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body" *ngIf="!bucketlists" style="text-align:center;">
+      <h2>You have no dream lists</h2>
+    </div>
+    <div class="panel-footer">
+      <span>
+        All our dreams can come true, if we have the courage to pursue them.
+        <sub style="color:#53A3CD"><strong>~ Walt Disney</strong></sub>
+      </span>
+    </div>
+  </div>
+</div>

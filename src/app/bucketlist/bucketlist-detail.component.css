@@ -1,0 +1,30 @@
+.container {
+    font-family: 'Quattrocento Sans', sans-serif;
+}
+.panel-items {
+    font-family: 'Quattrocento Sans', sans-serif;
+	border-color: #ccc;
+	-webkit-box-shadow: 0px 2px 1px 0px #029f5b;
+	-moz-box-shadow: 0px 2px 1px 0px #029f5b;
+	box-shadow: 0px 2px 1px 0px #029f5b;
+}
+.panel-item {
+	-webkit-box-shadow: 0px 2px 1px 0px #59B2E0;
+	-moz-box-shadow: 0px 2px 1px 0px #59B2E0;
+	box-shadow: 0px 2px 1px 0px #59B2E0;
+	width: 265px;
+	height: 265px;
+	margin: 2px;
+}
+.panel-body button {
+	margin: 5px;
+}
+.panel-footer {
+	text-align: center;
+}
+.panel-footer span {
+	margin: 0 auto;
+	max-width: 100px;
+	font-family: 'Indie Flower', cursive;
+	font-size: 28px;
+}
